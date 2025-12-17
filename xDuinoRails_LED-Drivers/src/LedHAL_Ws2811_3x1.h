@@ -21,50 +21,24 @@ public:
         setColor({0, 0, 0});
     }
 
-    // Sets the brightness of the three LEDs connected to each WS2811 IC.
-    // The r, g, and b components of the RgbColor struct are used to set the
-    // brightness of the first, second, and third LED, respectively.
+    // Sets the brightness of all LEDs on the strip to a single value
+    // derived from the luminance of the input color.
     void setColor(const RgbColor& color) override {
-        uint16_t num_groups = _numLeds / 3;
-        for (uint16_t i = 0; i < num_groups; i++) {
-            _strip.setPixelColor(i * 3, _strip.Color(color.r, 0, 0));
-            _strip.setPixelColor(i * 3 + 1, _strip.Color(0, color.g, 0));
-            _strip.setPixelColor(i * 3 + 2, _strip.Color(0, 0, color.b));
-        }
+        // Calculate a single brightness value from the RGB color.
+        // Using a common luminance formula with integer math (coefficients scaled to sum to 256).
+        uint8_t brightness = (uint8_t)(((uint16_t)color.r * 77 + (uint16_t)color.g * 150 + (uint16_t)color.b * 29) >> 8);
 
-        // Turn off any remaining LEDs that don't form a full group of 3
-        uint16_t remainder_start_index = num_groups * 3;
-        for (uint16_t i = remainder_start_index; i < _numLeds; i++) {
-            _strip.setPixelColor(i, 0); // set to black
+        for (uint16_t i = 0; i < _numLeds; i++) {
+            _strip.setPixelColor(i, brightness, brightness, brightness);
         }
-
         _strip.show();
     }
 
-    // Sets the color of a single LED. Does NOT call show().
-    // Call show() to update the strip.
-    void setPixel(uint16_t index, const RgbColor& color) {
-        if (index < _numLeds) {
-            _strip.setPixelColor(index, color.r, color.g, color.b);
-        }
-    }
-
     // Sets the brightness of a single LED. Does NOT call show().
-    // This method reads the existing color of the pixel, scales it by the
-    // brightness value, and then sets the new color.
     // Call show() to update the strip.
-    void setPixelBrightness(uint16_t index, uint8_t brightness) {
+    void setPixel(uint16_t index, uint8_t brightness) {
         if (index < _numLeds) {
-            uint32_t color = _strip.getPixelColor(index);
-            uint8_t r = (color >> 16) & 0xFF;
-            uint8_t g = (color >> 8) & 0xFF;
-            uint8_t b = color & 0xFF;
-
-            r = (uint8_t)((uint16_t)r * brightness / 255);
-            g = (uint8_t)((uint16_t)g * brightness / 255);
-            b = (uint8_t)((uint16_t)b * brightness / 255);
-
-            _strip.setPixelColor(index, r, g, b);
+            _strip.setPixelColor(index, brightness, brightness, brightness);
         }
     }
 
