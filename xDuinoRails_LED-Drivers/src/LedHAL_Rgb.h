@@ -1,7 +1,7 @@
-#ifndef LED_HAL_RGB_H
-#define LED_HAL_RGB_H
+#ifndef XDUINORAILS_LED_DRIVERS_RGB_H
+#define XDUINORAILS_LED_DRIVERS_RGB_H
 
-#include "LedHAL.h"
+#include "xDuinoRails_LED-Drivers.h"
 #include <Arduino.h>
 
 class LedRgb : public Led {
@@ -40,4 +40,4 @@ private:
     bool _isAnode;
 };
 
-#endif // LED_HAL_RGB_H
+#endif // XDUINORAILS_LED_DRIVERS_RGB_H

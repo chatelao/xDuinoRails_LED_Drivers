@@ -1,7 +1,7 @@
-#ifndef LED_HAL_NEOPIXEL_H
-#define LED_HAL_NEOPIXEL_H
+#ifndef XDUINORAILS_LED_DRIVERS_NEOPIXEL_H
+#define XDUINORAILS_LED_DRIVERS_NEOPIXEL_H
 
-#include "LedHAL.h"
+#include "xDuinoRails_LED-Drivers.h"
 #include <Adafruit_NeoPixel.h>
 
 // Note: This class requires the Adafruit NeoPixel library to be installed.
@@ -58,4 +58,4 @@ private:
     Adafruit_NeoPixel _strip;
 };
 
-#endif // LED_HAL_NEOPIXEL_H
+#endif // XDUINORAILS_LED_DRIVERS_NEOPIXEL_H
