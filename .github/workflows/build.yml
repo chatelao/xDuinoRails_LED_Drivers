@@ -1,0 +1,28 @@
+name: Build Examples
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup arduino-cli
+        uses: arduino/setup-arduino-cli@v1
+
+      - name: Install rp2040 core
+        run: |
+          arduino-cli core update-index --additional-urls https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
+          arduino-cli core install rp2040:rp2040 --additional-urls https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
+
+      - name: Install Adafruit NeoPixel library
+        run: arduino-cli lib install "Adafruit NeoPixel"
+
+      - name: Compile examples
+        run: |
+          arduino-cli compile --fqbn rp2040:rp2040:seeed_xiao_rp2040 --library ./xDuinoRails_LED-Drivers xDuinoRails_LED-Drivers/examples/NeoPixelRainbow
+          arduino-cli compile --fqbn rp2040:rp2040:seeed_xiao_rp2040 --library ./xDuinoRails_LED-Drivers xDuinoRails_LED-Drivers/examples/RgbLedCycle
+          arduino-cli compile --fqbn rp2040:rp2040:seeed_xiao_rp2040 --library ./xDuinoRails_LED-Drivers xDuinoRails_LED-Drivers/examples/SingleLedBlink

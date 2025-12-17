@@ -37,6 +37,14 @@ public:
         }
     }
 
+    // Sets the color of a single pixel using a packed 32-bit color value.
+    // Does NOT call show(). Call show() to update the strip.
+    void setColor(uint16_t pixelIndex, uint32_t color) {
+        if (pixelIndex < _numLeds) {
+            _strip.setPixelColor(pixelIndex, color);
+        }
+    }
+
     void show() {
         _strip.show();
     }
