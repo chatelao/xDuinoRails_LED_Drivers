@@ -41,6 +41,33 @@ public:
         _strip.show();
     }
 
+    // Sets the color of a single LED. Does NOT call show().
+    // Call show() to update the strip.
+    void setPixel(uint16_t index, const RgbColor& color) {
+        if (index < _numLeds) {
+            _strip.setPixelColor(index, color.r, color.g, color.b);
+        }
+    }
+
+    // Sets the brightness of a single LED. Does NOT call show().
+    // This method reads the existing color of the pixel, scales it by the
+    // brightness value, and then sets the new color.
+    // Call show() to update the strip.
+    void setPixelBrightness(uint16_t index, uint8_t brightness) {
+        if (index < _numLeds) {
+            uint32_t color = _strip.getPixelColor(index);
+            uint8_t r = (color >> 16) & 0xFF;
+            uint8_t g = (color >> 8) & 0xFF;
+            uint8_t b = color & 0xFF;
+
+            r = (uint8_t)((uint16_t)r * brightness / 255);
+            g = (uint8_t)((uint16_t)g * brightness / 255);
+            b = (uint8_t)((uint16_t)b * brightness / 255);
+
+            _strip.setPixelColor(index, r, g, b);
+        }
+    }
+
     void show() {
         _strip.show();
     }
