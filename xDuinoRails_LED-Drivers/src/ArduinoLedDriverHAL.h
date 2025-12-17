@@ -7,7 +7,7 @@
 #include "LedHAL_Triple.h"
 #include "LedHAL_Rgb.h"
 #include "LedHAL_NeoPixel.h"
-#include "LedHAL_Ws2811.h"
+#include "LedHAL_Ws2811_3x1.h"
 
 class ArduinoLedDriverHAL : public LedDriverHAL {
 public:
@@ -33,14 +33,14 @@ public:
                     return new LedRgb(pins[0], pins[1], pins[2]);
                 }
                 break;
-            case NEOPIXEL:
+            case WS2811_RGB:
                 if (pinCount >= 1 && numLeds > 0) {
                     return new LedNeoPixel(pins[0], numLeds);
                 }
                 break;
-            case WS2811:
+            case WS2811_3x1:
                 if (pinCount >= 1 && numLeds > 0) {
-                    return new LedWs2811(pins[0], numLeds);
+                    return new LedWs2811_3x1(pins[0], numLeds);
                 }
                 break;
         }

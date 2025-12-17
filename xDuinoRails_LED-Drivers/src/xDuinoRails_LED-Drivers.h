@@ -25,8 +25,8 @@ enum LedType {
     DUAL_LED,
     TRIPLE_LED,
     RGB_LED,
-    NEOPIXEL,
-    WS2811
+    WS2811_RGB,
+    WS2811_3x1
 };
 
 class LedDriverHAL {

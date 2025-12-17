@@ -1,6 +1,6 @@
 #include <ArduinoLedDriverHAL.h>
 
-// This example demonstrates the use of the LedWs2811 driver.
+// This example demonstrates the use of the LedWs2811_3x1 driver.
 // It creates a "breathing" effect on a strip of single-color WS2811 LEDs.
 
 #define LED_PIN 6
@@ -11,7 +11,7 @@ Led* leds;
 
 void setup() {
     uint8_t pins[] = {LED_PIN};
-    leds = hal.addLeds(WS2811, pins, 1, NUM_LEDS);
+    leds = hal.addLeds(WS2811_3x1, pins, 1, NUM_LEDS);
 }
 
 void loop() {
