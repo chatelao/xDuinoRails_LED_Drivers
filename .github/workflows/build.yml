@@ -23,6 +23,6 @@ jobs:
 
       - name: Compile examples
         run: |
-          arduino-cli compile --fqbn rp2040:rp2040:seeed_xiao_rp2040 --library ./xDuinoRails_LED-Drivers xDuinoRails_LED-Drivers/examples/NeoPixelRainbow
-          arduino-cli compile --fqbn rp2040:rp2040:seeed_xiao_rp2040 --library ./xDuinoRails_LED-Drivers xDuinoRails_LED-Drivers/examples/RgbLedCycle
-          arduino-cli compile --fqbn rp2040:rp2040:seeed_xiao_rp2040 --library ./xDuinoRails_LED-Drivers xDuinoRails_LED-Drivers/examples/SingleLedBlink
+          arduino-cli compile --fqbn rp2040:rp2040:seeed_xiao_rp2040 --library . examples/NeoPixelRainbow
+          arduino-cli compile --fqbn rp2040:rp2040:seeed_xiao_rp2040 --library . examples/RgbLedCycle
+          arduino-cli compile --fqbn rp2040:rp2040:seeed_xiao_rp2040 --library . examples/SingleLedBlink
