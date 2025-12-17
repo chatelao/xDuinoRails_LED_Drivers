@@ -6,7 +6,8 @@
 
 class LedRgb : public Led {
 public:
-    LedRgb(uint8_t pinR, uint8_t pinG, uint8_t pinB, bool isAnode = false) : _pinR(pinR), _pinG(pinG), _pinB(pinB), _isAnode(isAnode) {
+    enum RgbLedType { ANODE, CATHODE };
+    LedRgb(uint8_t pinR, uint8_t pinG, uint8_t pinB, RgbLedType type = ANODE) : _pinR(pinR), _pinG(pinG), _pinB(pinB), _isAnode(type == ANODE) {
         pinMode(_pinR, OUTPUT);
         pinMode(_pinG, OUTPUT);
         pinMode(_pinB, OUTPUT);
