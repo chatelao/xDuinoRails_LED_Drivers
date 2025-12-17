@@ -25,11 +25,19 @@ public:
     // The r, g, and b components of the RgbColor struct are used to set the
     // brightness of the first, second, and third LED, respectively.
     void setColor(const RgbColor& color) override {
-        for (uint16_t i = 0; i < _numLeds / 3; i++) {
+        uint16_t num_groups = _numLeds / 3;
+        for (uint16_t i = 0; i < num_groups; i++) {
             _strip.setPixelColor(i * 3, _strip.Color(color.r, 0, 0));
             _strip.setPixelColor(i * 3 + 1, _strip.Color(0, color.g, 0));
             _strip.setPixelColor(i * 3 + 2, _strip.Color(0, 0, color.b));
         }
+
+        // Turn off any remaining LEDs that don't form a full group of 3
+        uint16_t remainder_start_index = num_groups * 3;
+        for (uint16_t i = remainder_start_index; i < _numLeds; i++) {
+            _strip.setPixelColor(i, 0); // set to black
+        }
+
         _strip.show();
     }
 
