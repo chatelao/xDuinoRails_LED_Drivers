@@ -1,0 +1,45 @@
+#ifndef ARDUINO_LED_DRIVER_HAL_H
+#define ARDUINO_LED_DRIVER_HAL_H
+
+#include "xDuinoRails_LED-Drivers.h"
+#include "LedHAL_Single.h"
+#include "LedHAL_Dual.h"
+#include "LedHAL_Triple.h"
+#include "LedHAL_Rgb.h"
+#include "LedHAL_NeoPixel.h"
+
+class ArduinoLedDriverHAL : public LedDriverHAL {
+public:
+    Led* addLeds(LedType type, const uint8_t* pins, uint8_t pinCount, uint16_t numLeds = 0) override {
+        switch (type) {
+            case SINGLE_LED:
+                if (pinCount >= 1) {
+                    return new LedSingle(pins[0]);
+                }
+                break;
+            case DUAL_LED:
+                if (pinCount >= 2) {
+                    return new LedDual(pins[0], pins[1]);
+                }
+                break;
+            case TRIPLE_LED:
+                if (pinCount >= 3) {
+                    return new LedTriple(pins[0], pins[1], pins[2]);
+                }
+                break;
+            case RGB_LED:
+                if (pinCount >= 3) {
+                    return new LedRgb(pins[0], pins[1], pins[2]);
+                }
+                break;
+            case NEOPIXEL:
+                if (pinCount >= 1 && numLeds > 0) {
+                    return new LedNeoPixel(pins[0], numLeds);
+                }
+                break;
+        }
+        return nullptr; // Return null if pins are not configured correctly
+    }
+};
+
+#endif // ARDUINO_LED_DRIVER_HAL_H

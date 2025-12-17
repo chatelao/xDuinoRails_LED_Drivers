@@ -1,7 +1,7 @@
-#ifndef LED_HAL_SINGLE_H
-#define LED_HAL_SINGLE_H
+#ifndef XDUINORAILS_LED_DRIVERS_SINGLE_H
+#define XDUINORAILS_LED_DRIVERS_SINGLE_H
 
-#include "LedHAL.h"
+#include "xDuinoRails_LED-Drivers.h"
 #include <Arduino.h>
 
 class LedSingle : public Led {
@@ -33,4 +33,4 @@ private:
     bool _isAnode;
 };
 
-#endif // LED_HAL_SINGLE_H
+#endif // XDUINORAILS_LED_DRIVERS_SINGLE_H
