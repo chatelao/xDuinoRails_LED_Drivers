@@ -25,7 +25,7 @@ enum LedType {
     DUAL_LED,
     TRIPLE_LED,
     RGB_LED,
-    WS2811_RGB,
+    NEOPIXEL,
     WS2811_3x1
 };
 

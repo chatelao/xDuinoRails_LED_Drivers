@@ -33,7 +33,7 @@ public:
                     return new LedRgb(pins[0], pins[1], pins[2]);
                 }
                 break;
-            case WS2811_RGB:
+            case NEOPIXEL:
                 if (pinCount >= 1 && numLeds > 0) {
                     return new LedNeoPixel(pins[0], numLeds);
                 }

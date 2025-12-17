@@ -14,7 +14,7 @@ LedNeoPixel* myStrip;
 void setup() {
   // Create the LED driver using the factory
   // Cast the result to LedNeoPixel* to access strip-specific methods
-  myStrip = static_cast<LedNeoPixel*>(ledHal.addLeds(WS2811_RGB, neoPixelPins, 1, numLeds));
+  myStrip = static_cast<LedNeoPixel*>(ledHal.addLeds(NEOPIXEL, neoPixelPins, 1, numLeds));
 }
 
 void loop() {

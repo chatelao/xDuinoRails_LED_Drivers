@@ -4,7 +4,7 @@
 // It creates a "breathing" effect on a strip of single-color WS2811 LEDs.
 
 #define LED_PIN 6
-#define NUM_LEDS 8
+#define NUM_LEDS 9 // Must be a multiple of 3
 
 ArduinoLedDriverHAL hal;
 Led* leds;
