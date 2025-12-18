@@ -51,8 +51,18 @@ public:
                 }
                 break;
             case MATRIX:
-                if (pinCount >= 3) {
-                    return new LedMatrix(pins[0], pins[1], pins[2]);
+                // For MATRIX type:
+                // - numLeds: The number of rows in the matrix.
+                // - pins: An array containing all row pins followed by all column pins.
+                // - pinCount: The total number of pins (rows + columns).
+                if (numLeds > 0 && pinCount >= numLeds) {
+                    uint8_t rowCount = numLeds;
+                    uint8_t colCount = pinCount - rowCount;
+                    if (colCount > 0) {
+                        const uint8_t* rowPins = pins;
+                        const uint8_t* colPins = pins + rowCount;
+                        return new LedMatrix(rowPins, rowCount, colPins, colCount);
+                    }
                 }
                 break;
         }
