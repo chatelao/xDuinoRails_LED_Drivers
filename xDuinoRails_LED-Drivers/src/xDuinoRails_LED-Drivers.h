@@ -27,7 +27,8 @@ enum LedType {
     RGB_LED,
     NEOPIXEL,
     WS2811_3x1,
-    CHARLIEPLEX
+    CHARLIEPLEX,
+    MATRIX
 };
 
 class LedDriverHAL {

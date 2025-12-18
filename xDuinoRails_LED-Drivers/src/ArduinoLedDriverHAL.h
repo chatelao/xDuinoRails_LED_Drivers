@@ -9,6 +9,7 @@
 #include "LedHAL_NeoPixel.h"
 #include "LedHAL_Ws2811_3x1.h"
 #include "LedHAL_CharliePlex.h"
+#include "LedHAL_Matrix.h"
 
 class ArduinoLedDriverHAL : public LedDriverHAL {
 public:
@@ -47,6 +48,11 @@ public:
             case CHARLIEPLEX:
                 if (pinCount > 1) {
                     return new LedCharliePlex(pins, pinCount);
+                }
+                break;
+            case MATRIX:
+                if (pinCount >= 3) {
+                    return new LedMatrix(pins[0], pins[1], pins[2]);
                 }
                 break;
         }
