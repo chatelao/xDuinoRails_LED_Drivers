@@ -22,8 +22,7 @@ public:
 // Enum for different LED types
 enum LedType {
     SINGLE_LED,
-    DUAL_LED,
-    TRIPLE_LED,
+    MULTI_LED,
     RGB_LED,
     NEOPIXEL,
     WS2811_3x1,

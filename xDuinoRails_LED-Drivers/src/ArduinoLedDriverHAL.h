@@ -3,8 +3,7 @@
 
 #include "xDuinoRails_LED-Drivers.h"
 #include "LedHAL_Single.h"
-#include "LedHAL_Dual.h"
-#include "LedHAL_Triple.h"
+#include "LedHAL_Multi.h"
 #include "LedHAL_Rgb.h"
 #include "LedHAL_NeoPixel.h"
 #include "LedHAL_Ws2811_3x1.h"
@@ -19,14 +18,9 @@ public:
                     return new LedSingle(pins[0]);
                 }
                 break;
-            case DUAL_LED:
-                if (pinCount >= 2) {
-                    return new LedDual(pins[0], pins[1]);
-                }
-                break;
-            case TRIPLE_LED:
-                if (pinCount >= 3) {
-                    return new LedTriple(pins[0], pins[1], pins[2]);
+            case MULTI_LED:
+                if (pinCount > 1) {
+                    return new LedMulti(pins, pinCount);
                 }
                 break;
             case RGB_LED:
