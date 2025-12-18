@@ -11,6 +11,8 @@ public:
     LedNeoPixel(uint8_t pin, uint16_t numLeds) : _numLeds(numLeds), _strip(numLeds, pin, NEO_GRB + NEO_KHZ800) {
         _strip.begin();
         off();
+        _brightness = 255;
+        _strip.setBrightness(_brightness);
     }
 
     void on() override {
@@ -21,11 +23,17 @@ public:
         setColor({0, 0, 0});
     }
 
-    // Sets the color of all pixels and calls show() to update the strip.
     void setColor(const RgbColor& color) override {
+        _color = color;
         for (uint16_t i = 0; i < _numLeds; i++) {
             _strip.setPixelColor(i, color.r, color.g, color.b);
         }
+        _strip.show();
+    }
+
+    void setBrightness(uint8_t brightness) override {
+        _brightness = brightness;
+        _strip.setBrightness(_brightness);
         _strip.show();
     }
 

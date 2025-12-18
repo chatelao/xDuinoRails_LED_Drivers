@@ -9,10 +9,11 @@ public:
     LedSingle(uint8_t pin, bool isAnode = true) : _pin(pin), _isAnode(isAnode) {
         pinMode(_pin, OUTPUT);
         off();
+        _brightness = 255;
     }
 
     void on() override {
-        digitalWrite(_pin, _isAnode ? HIGH : LOW);
+        analogWrite(_pin, _isAnode ? _brightness : 255 - _brightness);
     }
 
     void off() override {
@@ -20,12 +21,17 @@ public:
     }
 
     void setColor(const RgbColor& color) override {
-        // Not applicable for single color LEDs, but must be implemented.
+        _color = color;
         if (color.r > 0 || color.g > 0 || color.b > 0) {
             on();
         } else {
             off();
         }
+    }
+
+    void setBrightness(uint8_t brightness) override {
+        _brightness = brightness;
+        on();
     }
 
 private:

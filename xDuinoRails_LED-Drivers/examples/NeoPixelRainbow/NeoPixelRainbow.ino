@@ -1,37 +1,48 @@
 #include <ArduinoLedDriverHAL.h>
 
-// Create the HAL factory
+// Create the HAL instance
 ArduinoLedDriverHAL ledHal;
 
-// Define the pin for the NeoPixel strip
-const uint8_t neoPixelPins[] = {6};
-// Define the number of LEDs in the strip
+// Define pins and LED counts
+const uint8_t neoPixelPin[] = {6};
 const uint16_t numLeds = 10;
 
-// Create a pointer for the NeoPixel object
-LedNeoPixel* myStrip;
+const uint8_t singleLedPins[] = {9, 10, 11};
 
 void setup() {
-  // Create the LED driver using the factory
-  // Cast the result to LedNeoPixel* to access strip-specific methods
-  myStrip = static_cast<LedNeoPixel*>(ledHal.addLeds(NEOPIXEL, neoPixelPins, 1, numLeds));
+  // Add a NeoPixel strip to group 0
+  ledHal.addLeds(NEOPIXEL, neoPixelPin, 1, numLeds, 0);
+
+  // Add single LEDs to group 1
+  ledHal.addLeds(SINGLE_LED, &singleLedPins[0], 1, 0, 1);
+  ledHal.addLeds(SINGLE_LED, &singleLedPins[1], 1, 0, 1);
+  ledHal.addLeds(SINGLE_LED, &singleLedPins[2], 1, 0, 1);
 }
 
 void loop() {
-  // Check if the strip object was created successfully
-  if (myStrip) {
-    rainbow(20);
-  }
-}
+  // Set color and brightness for the NeoPixel strip (group 0)
+  ledHal.setGroupColor(0, {255, 0, 0}); // Red
+  ledHal.setGroupBrightness(0, 128);   // Half brightness
+  delay(1000);
 
-// A simple rainbow effect
-void rainbow(int wait) {
-  for (long firstPixelHue = 0; firstPixelHue < 65536; firstPixelHue += 256) {
-    for (int i = 0; i < myStrip->numPixels(); i++) {
-      int pixelHue = firstPixelHue + (i * 65536L / myStrip->numPixels());
-      myStrip->setColor(i, myStrip->gamma32(myStrip->ColorHSV(pixelHue)));
-    }
-    myStrip->show();
-    delay(wait);
+  // Turn on single LEDs (group 1)
+  ledHal.groupOn(1);
+  delay(1000);
+
+  // Change color of the NeoPixel strip
+  ledHal.setGroupColor(0, {0, 0, 255}); // Blue
+  delay(1000);
+
+  // Turn off all LEDs in group 1
+  ledHal.groupOff(1);
+  delay(1000);
+
+  // Access a single LED by its global index
+  Led* firstNeoPixel = ledHal.getLed(0);
+  if (firstNeoPixel) {
+    // This will set the color of the entire strip,
+    // as the LedNeoPixel implementation applies the color to all pixels.
+    firstNeoPixel->setColor({0, 255, 0}); // Green
   }
+  delay(1000);
 }
