@@ -19,9 +19,7 @@ public:
     virtual void on() = 0;
     virtual void off() = 0;
     virtual void setColor(const RgbColor& color) = 0;
-    virtual void setBrightness(uint8_t brightness) {
-        _brightness = brightness;
-    }
+    virtual void setBrightness(uint8_t brightness) = 0;
 
     uint8_t getGroupId() const { return _groupId; }
     uint16_t getIndexInGroup() const { return _indexInGroup; }

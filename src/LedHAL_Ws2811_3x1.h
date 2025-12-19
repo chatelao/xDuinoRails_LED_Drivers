@@ -32,7 +32,7 @@ public:
     }
 
     void setBrightness(uint8_t brightness) override {
-        Led::setBrightness(brightness);
+        _brightness = brightness;
         for (uint16_t i = 0; i < _numLeds; i++) {
             setPixel(i, _brightness);
         }
