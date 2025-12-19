@@ -1,7 +1,7 @@
 #ifndef XDUINORAILS_LED_DRIVERS_MULTI_H
 #define XDUINORAILS_LED_DRIVERS_MULTI_H
 
-#include "xDuinoRails_LED-Drivers.h"
+#include "Led.h"
 #include <Arduino.h>
 
 class LedMulti : public Led {

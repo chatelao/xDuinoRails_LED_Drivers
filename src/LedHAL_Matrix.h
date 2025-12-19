@@ -1,14 +1,14 @@
 #ifndef XDUINORAILS_LED_DRIVERS_MATRIX_H
 #define XDUINORAILS_LED_DRIVERS_MATRIX_H
 
-#include "xDuinoRails_LED-Drivers.h"
+#include "LedStrip.h"
 #include <Arduino.h>
 #include <string.h>
 
-class LedMatrix : public Led {
+class LedMatrix : public LedStrip {
 public:
     LedMatrix(const uint8_t* rowPins, uint8_t rowCount, const uint8_t* colPins, uint8_t colCount, uint8_t groupId = 0, uint16_t indexInGroup = 0)
-        : Led(groupId, indexInGroup), _rows(rowCount), _cols(colCount), _rowPins(nullptr), _colPins(nullptr), _buffer(nullptr), _currentRow(0) {
+        : LedStrip(groupId, indexInGroup), _rows(rowCount), _cols(colCount), _rowPins(nullptr), _colPins(nullptr), _buffer(nullptr), _currentRow(0) {
 
         _rowPins = new uint8_t[_rows];
         _colPins = new uint8_t[_cols];
@@ -64,11 +64,17 @@ public:
         }
     }
 
+    void setPixelColor(uint16_t pixelIndex, const RgbColor& color) override {
+        if (pixelIndex < _rows * _cols) {
+            _buffer[pixelIndex] = (color.r + color.g + color.b) / 3;
+        }
+    }
+
     void setBrightness(uint8_t brightness) override {
         Led::setBrightness(brightness);
     }
 
-    void show() {
+    void show() override {
         digitalWrite(_rowPins[_currentRow], HIGH);
 
         _currentRow++;

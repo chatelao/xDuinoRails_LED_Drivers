@@ -1,13 +1,13 @@
 #ifndef XDUINORAILS_LED_DRIVERS_CHARLIEPLEX_H
 #define XDUINORAILS_LED_DRIVERS_CHARLIEPLEX_H
 
-#include "xDuinoRails_LED-Drivers.h"
+#include "LedStrip.h"
 #include <Arduino.h>
 
-class LedCharliePlex : public Led {
+class LedCharliePlex : public LedStrip {
 public:
     LedCharliePlex(const uint8_t* pins, uint8_t pinCount, uint8_t groupId = 0, uint16_t indexInGroup = 0)
-        : Led(groupId, indexInGroup), _pinCount(pinCount), _numLeds(pinCount * (pinCount - 1)) {
+        : LedStrip(groupId, indexInGroup), _pinCount(pinCount), _numLeds(pinCount * (pinCount - 1)) {
         _pins = new uint8_t[pinCount];
         for (uint8_t i = 0; i < pinCount; i++) {
             _pins[i] = pins[i];
@@ -26,6 +26,7 @@ public:
 
     void on() override {
         setColor({255, 255, 255});
+        show();
     }
 
     void off() override {
@@ -35,17 +36,19 @@ public:
         for (uint16_t i = 0; i < _numLeds; i++) {
             _ledColors[i] = {0, 0, 0};
         }
+        show();
     }
 
     void setColor(const RgbColor& color) override {
         for (uint16_t i = 0; i < _numLeds; i++) {
             _ledColors[i] = color;
         }
+        show();
     }
 
-    void setColor(uint16_t ledIndex, const RgbColor& color) {
-        if (ledIndex < _numLeds) {
-            _ledColors[ledIndex] = color;
+    void setPixelColor(uint16_t pixelIndex, const RgbColor& color) override {
+        if (pixelIndex < _numLeds) {
+            _ledColors[pixelIndex] = color;
         }
     }
 
@@ -53,7 +56,7 @@ public:
         Led::setBrightness(brightness);
     }
 
-    void show() {
+    void show() override {
         for (uint16_t i = 0; i < _numLeds; i++) {
             const auto& color = _ledColors[i];
             if (color.r > 0 || color.g > 0 || color.b > 0) {

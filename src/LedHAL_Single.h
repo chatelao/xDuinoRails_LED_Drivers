@@ -1,7 +1,7 @@
 #ifndef XDUINORAILS_LED_DRIVERS_SINGLE_H
 #define XDUINORAILS_LED_DRIVERS_SINGLE_H
 
-#include "xDuinoRails_LED-Drivers.h"
+#include "Led.h"
 #include <Arduino.h>
 
 class LedSingle : public Led {
