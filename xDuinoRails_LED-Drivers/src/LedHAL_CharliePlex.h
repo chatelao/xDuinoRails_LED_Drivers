@@ -6,7 +6,8 @@
 
 class LedCharliePlex : public Led {
 public:
-    LedCharliePlex(const uint8_t* pins, uint8_t pinCount) : _pinCount(pinCount), _numLeds(pinCount * (pinCount - 1)) {
+    LedCharliePlex(const uint8_t* pins, uint8_t pinCount, uint8_t groupId = 0, uint16_t indexInGroup = 0)
+        : Led(groupId, indexInGroup), _pinCount(pinCount), _numLeds(pinCount * (pinCount - 1)) {
         _pins = new uint8_t[pinCount];
         for (uint8_t i = 0; i < pinCount; i++) {
             _pins[i] = pins[i];
@@ -48,19 +49,18 @@ public:
         }
     }
 
+    void setBrightness(uint8_t brightness) override {
+        Led::setBrightness(brightness);
+    }
+
     void show() {
         for (uint16_t i = 0; i < _numLeds; i++) {
             const auto& color = _ledColors[i];
-            // Charlieplexing single color LEDs, so we just check for on/off
             if (color.r > 0 || color.g > 0 || color.b > 0) {
                 lightLed(i);
-                // The delay is important for POV. A better implementation
-                // would use timers and interrupts to avoid blocking.
-                // For now, this is a simple implementation.
-                delayMicroseconds(100);
+                delayMicroseconds(_brightness * 10);
             }
         }
-        // Turn off all pins after refresh cycle
         for (uint8_t i = 0; i < _pinCount; i++) {
             pinMode(_pins[i], INPUT);
         }
@@ -72,7 +72,6 @@ private:
         uint8_t cathodePinIndex = 0;
         uint16_t currentIndex = 0;
 
-        // Turn all pins to INPUT before setting up the next pair
         for (uint8_t i = 0; i < _pinCount; i++) {
             pinMode(_pins[i], INPUT);
         }
