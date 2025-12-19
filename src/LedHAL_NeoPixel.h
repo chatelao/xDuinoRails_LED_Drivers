@@ -1,13 +1,13 @@
 #ifndef XDUINORAILS_LED_DRIVERS_NEOPIXEL_H
 #define XDUINORAILS_LED_DRIVERS_NEOPIXEL_H
 
-#include "xDuinoRails_LED-Drivers.h"
+#include "LedStrip.h"
 #include <Adafruit_NeoPixel.h>
 
-class LedNeoPixel : public Led {
+class LedNeoPixel : public LedStrip {
 public:
     LedNeoPixel(uint8_t pin, uint16_t numLeds, uint8_t groupId = 0, uint16_t indexInGroup = 0)
-        : Led(groupId, indexInGroup), _numLeds(numLeds), _strip(numLeds, pin, NEO_GRB + NEO_KHZ800) {
+        : LedStrip(groupId, indexInGroup), _numLeds(numLeds), _strip(numLeds, pin, NEO_GRB + NEO_KHZ800) {
         _strip.begin();
         off();
     }
@@ -27,7 +27,7 @@ public:
         _strip.show();
     }
 
-    void setColor(uint16_t pixelIndex, const RgbColor& color) {
+    void setPixelColor(uint16_t pixelIndex, const RgbColor& color) override {
         if (pixelIndex < _numLeds) {
             _strip.setPixelColor(pixelIndex, color.r, color.g, color.b);
         }
@@ -45,7 +45,7 @@ public:
         _strip.show();
     }
 
-    void show() {
+    void show() override {
         _strip.show();
     }
 

@@ -27,7 +27,7 @@ void loop() {
         lastUpdateTime = currentTime;
 
         // Turn off the previous LED
-        charliePlexLeds->setColor(currentLed, {0, 0, 0});
+        charliePlexLeds->setPixelColor(currentLed, {0, 0, 0});
 
         // Move to the next LED
         currentLed++;
@@ -36,7 +36,7 @@ void loop() {
         }
 
         // Turn on the new current LED
-        charliePlexLeds->setColor(currentLed, {255, 255, 255});
+        charliePlexLeds->setPixelColor(currentLed, {255, 255, 255});
     }
 
     // Refresh the display on every loop iteration for POV
