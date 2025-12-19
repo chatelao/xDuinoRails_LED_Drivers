@@ -8,6 +8,7 @@
 #include "LedHAL_NeoPixel.h"
 #include "LedHAL_Ws2811_3x1.h"
 #include "LedHAL_CharliePlex.h"
+#include "LedHAL_Matrix.h"
 
 class ArduinoLedDriverHAL : public LedDriverHAL {
 public:
@@ -41,6 +42,21 @@ public:
             case CHARLIEPLEX:
                 if (pinCount > 1) {
                     return new LedCharliePlex(pins, pinCount);
+                }
+                break;
+            case MATRIX:
+                // For MATRIX type:
+                // - numLeds: The number of rows in the matrix.
+                // - pins: An array containing all row pins followed by all column pins.
+                // - pinCount: The total number of pins (rows + columns).
+                if (numLeds > 0 && pinCount >= numLeds) {
+                    uint8_t rowCount = numLeds;
+                    uint8_t colCount = pinCount - rowCount;
+                    if (colCount > 0) {
+                        const uint8_t* rowPins = pins;
+                        const uint8_t* colPins = pins + rowCount;
+                        return new LedMatrix(rowPins, rowCount, colPins, colCount);
+                    }
                 }
                 break;
         }
