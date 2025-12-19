@@ -6,7 +6,8 @@
 
 class LedMulti : public Led {
 public:
-    LedMulti(const uint8_t* pins, uint8_t pinCount, bool isAnode = true) : _pinCount(pinCount), _isAnode(isAnode) {
+    LedMulti(const uint8_t* pins, uint8_t pinCount, uint8_t groupId = 0, uint16_t indexInGroup = 0, bool isAnode = true)
+        : Led(groupId, indexInGroup), _pinCount(pinCount), _isAnode(isAnode) {
         _pins = new uint8_t[pinCount];
         for (uint8_t i = 0; i < _pinCount; i++) {
             _pins[i] = pins[i];
@@ -21,7 +22,11 @@ public:
 
     void on() override {
         for (uint8_t i = 0; i < _pinCount; i++) {
-            digitalWrite(_pins[i], _isAnode ? HIGH : LOW);
+            if (_isAnode) {
+                analogWrite(_pins[i], _brightness);
+            } else {
+                analogWrite(_pins[i], 255 - _brightness);
+            }
         }
     }
 
@@ -32,8 +37,13 @@ public:
     }
 
     void setColor(const RgbColor& color) override {
-        // Simplified for multi LEDs, treating them as a single color.
-        if (color.r > 0 || color.g > 0 || color.b > 0) {
+        uint8_t brightness = (color.r + color.g + color.b) / 3;
+        setBrightness(brightness);
+    }
+
+    void setBrightness(uint8_t brightness) override {
+        Led::setBrightness(brightness);
+        if (brightness > 0) {
             on();
         } else {
             off();

@@ -4,11 +4,10 @@
 #include "xDuinoRails_LED-Drivers.h"
 #include <Adafruit_NeoPixel.h>
 
-// Note: This class requires the Adafruit NeoPixel library to be installed.
-
 class LedNeoPixel : public Led {
 public:
-    LedNeoPixel(uint8_t pin, uint16_t numLeds) : _numLeds(numLeds), _strip(numLeds, pin, NEO_GRB + NEO_KHZ800) {
+    LedNeoPixel(uint8_t pin, uint16_t numLeds, uint8_t groupId = 0, uint16_t indexInGroup = 0)
+        : Led(groupId, indexInGroup), _numLeds(numLeds), _strip(numLeds, pin, NEO_GRB + NEO_KHZ800) {
         _strip.begin();
         off();
     }
@@ -21,7 +20,6 @@ public:
         setColor({0, 0, 0});
     }
 
-    // Sets the color of all pixels and calls show() to update the strip.
     void setColor(const RgbColor& color) override {
         for (uint16_t i = 0; i < _numLeds; i++) {
             _strip.setPixelColor(i, color.r, color.g, color.b);
@@ -29,20 +27,22 @@ public:
         _strip.show();
     }
 
-    // Sets the color of a single pixel. Does NOT call show().
-    // Call show() to update the strip.
     void setColor(uint16_t pixelIndex, const RgbColor& color) {
         if (pixelIndex < _numLeds) {
             _strip.setPixelColor(pixelIndex, color.r, color.g, color.b);
         }
     }
 
-    // Sets the color of a single pixel using a packed 32-bit color value.
-    // Does NOT call show(). Call show() to update the strip.
     void setColor(uint16_t pixelIndex, uint32_t color) {
         if (pixelIndex < _numLeds) {
             _strip.setPixelColor(pixelIndex, color);
         }
+    }
+
+    void setBrightness(uint8_t brightness) override {
+        Led::setBrightness(brightness);
+        _strip.setBrightness(brightness);
+        _strip.show();
     }
 
     void show() {
