@@ -60,7 +60,8 @@ public:
 
     void setColor(uint8_t col, uint8_t row, const RgbColor& color) {
         if (row < _rows && col < _cols) {
-            _buffer[row * _cols + col] = (color.r + color.g + color.b) / 3;
+            uint8_t brightness = (color.r + color.g + color.b) / 3;
+            _buffer[row * _cols + col] = brightness;
         }
     }
 
@@ -69,17 +70,22 @@ public:
     }
 
     void show() {
+        // Deactivate the currently active row
         digitalWrite(_rowPins[_currentRow], HIGH);
 
+        // Move to the next row
         _currentRow++;
         if (_currentRow >= _rows) {
             _currentRow = 0;
         }
 
+        // Set column pins to the brightness values for the new current row
         for (uint8_t c = 0; c < _cols; c++) {
-            analogWrite(_colPins[c], _buffer[_currentRow * _cols + c]);
+            uint16_t scaledBrightness = (uint16_t)_buffer[_currentRow * _cols + c] * _brightness / 255;
+            analogWrite(_colPins[c], scaledBrightness);
         }
 
+        // Activate the new current row
         digitalWrite(_rowPins[_currentRow], LOW);
     }
 

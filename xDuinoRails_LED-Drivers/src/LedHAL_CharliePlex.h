@@ -56,9 +56,14 @@ public:
     void show() {
         for (uint16_t i = 0; i < _numLeds; i++) {
             const auto& color = _ledColors[i];
-            if (color.r > 0 || color.g > 0 || color.b > 0) {
-                lightLed(i);
-                delayMicroseconds(_brightness * 10);
+            uint8_t colorBrightness = (uint8_t)(((uint16_t)color.r + color.g + color.b) / 3);
+
+            if (colorBrightness > 0) {
+                uint16_t delay = ((uint32_t)_brightness * 10 * colorBrightness) / 255;
+                if (delay > 0) {
+                    lightLed(i);
+                    delayMicroseconds(delay);
+                }
             }
         }
         for (uint8_t i = 0; i < _pinCount; i++) {
