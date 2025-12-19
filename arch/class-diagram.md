@@ -6,6 +6,8 @@ This diagram illustrates the class structure of the `xDuinoRails_LED-Drivers` li
 @startuml
 title LED Driver Class Diagram
 
+left to right direction
+
 ' Styling
 skinparam class {
     BackgroundColor PaleGreen
