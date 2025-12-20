@@ -37,7 +37,7 @@ public:
     }
 
     void setBrightness(uint8_t brightness) override {
-        Led::setBrightness(brightness);
+        LedStrip::setBrightness(brightness);
         for (uint16_t i = 0; i < _numLeds; i++) {
             _strip.setPixelColor(i, _brightness, _brightness, _brightness);
         }

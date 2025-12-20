@@ -53,7 +53,7 @@ public:
     }
 
     void setBrightness(uint8_t brightness) override {
-        Led::setBrightness(brightness);
+        LedStrip::setBrightness(brightness);
     }
 
     void show() override {
